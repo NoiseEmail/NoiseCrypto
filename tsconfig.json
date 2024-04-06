@@ -1,0 +1,33 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "esnext",
+		"lib": [
+			"ESNext"
+		],
+		"declaration": false,
+		"noImplicitAny": true,
+		"removeComments": true,
+		"esModuleInterop": true,
+		"isolatedModules": false,
+		"sourceMap": false,
+		"allowJs": false,
+		"moduleResolution": "node",
+		"outDir": "./dist",
+		"strict": true,
+		"types": [
+			"bun-types",
+			"jest",
+			"node"
+		]
+	},
+	"include": [
+		"src/**/*"
+	],
+	"ts-node": {
+		"esm": true
+	},
+	"lib": [
+		"esnext",
+	]
+}
