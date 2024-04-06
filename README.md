@@ -8,14 +8,14 @@ To get started, follow these steps:
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/noiseemail/noisecrypto.git
+    git clone https://github.com/NoiseEmail/NoiseCrypto.git
     ```
 
 2. **Add Dependencies**:
     Add the following dependency to your `package.json` file:
     ```json
     "dependencies": {
-        "noise-crypto": "file:./noisecrypto"
+        "noise-crypto": "file:./NoiseCrypto"
     }
     ```
 
