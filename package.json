@@ -9,6 +9,10 @@
     "name": "Noise",
     "url": "https://os.noise.email"
   },
+  "repository": {
+		"type": "git",
+		"url": "git+https://github.com/NoiseEmail/NoiseCrypto.git"
+	},
   "dependencies": {
     "@noble/ciphers": "^0.5.2",
     "@noble/curves": "^1.4.0",
