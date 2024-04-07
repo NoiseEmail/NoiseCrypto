@@ -1,5 +1,4 @@
 import { SymEncFunction } from "./symetric";
-import { utf8ToBytes } from '@noble/ciphers/utils';
 
 
 const serialize = (

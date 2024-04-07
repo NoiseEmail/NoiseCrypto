@@ -11,3 +11,7 @@ export {
     PrivateKey,
     PublicKey
 }
+
+
+
+export default configuration.Configutaion;
