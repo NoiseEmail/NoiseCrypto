@@ -33,7 +33,7 @@ class Configutaion {
 	public static default_configuration = (
 	): ConfigutaionOptions => { return {
 		elliptic_curve: supported_curves.P521,
-		derived_key_size: 64,
+		derived_key_size: 32,
         hash_function: supported_hashes.SHA512
 	}};
 

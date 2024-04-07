@@ -1,8 +1,8 @@
 # noisecrypto: Encryption and Decryption Methods for noise.email
 
-The `noisecrypto` repository contains TypeScript code for encryption and decryption methods used in **noise.email**. These methods are based on the noble curves library.
+The `noisecrypto` repository contains TypeScript code for encryption and decryption methods used in **noise.email**.
 
-## Installation
+## Local Installation
 
 To get started, follow these steps:
 
@@ -19,7 +19,7 @@ To get started, follow these steps:
     }
     ```
 
-3. **Install Dependencies**:
+3. **Install as Dependency**:
     Install!
     ```bash
     npm install
