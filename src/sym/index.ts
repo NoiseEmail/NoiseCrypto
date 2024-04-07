@@ -19,7 +19,7 @@ const encrypt = (
 
 const decrypt = (
     func: functions.SymEncFunction,
-    enc_data: Uint8Array,
+    enc_data: Uint8Array | string,
     key: Uint8Array,
 ): Uint8Array => {
     const { data, nonce, sym_func_name } = serialize.deserialize(enc_data);

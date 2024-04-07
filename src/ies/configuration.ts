@@ -179,6 +179,9 @@ class Configutaion {
     public get curve(): ecc.configuration.Configutaion { return this._elliptic_curve; }
     public get symetric_function(): symmetric.functions.SymEncFunction { return this._symetric_function; }
     public get hash_function(): util.hash.HashFunction { return this._elliptic_curve.hash_function; }
+
+    public get ecc_configuration(): ecc.configuration.Configutaion { return this._elliptic_curve; }
+    public get symetric_configuration(): symmetric.functions.SymEncFunction { return this._symetric_function; }
 };
 
 
@@ -186,4 +189,4 @@ class Configutaion {
 export {
     Configutaion,
     ConfigutaionOptions
-}
+};
