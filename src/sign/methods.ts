@@ -23,7 +23,7 @@ const p521_sign: SignMethod = {
         };
     },
     verify: (data: Uint8Array | string, signature: Uint8Array, public_key: Uint8Array) => {
-        return p521.verify(data, signature, public_key);
+        return p521.verify(signature, data, public_key);
     }
 };
 
