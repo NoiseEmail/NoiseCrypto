@@ -19,5 +19,5 @@ export {
 
     Sign,
     Ecc,
-    Ies
+    Ies,
 };

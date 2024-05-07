@@ -1,4 +1,4 @@
-import { concatBytes } from "@noble/hashes/utils";
+import { concatBytes, randomBytes } from "@noble/hashes/utils";
 import { ecc, symmetric, util } from "..";
 
 
@@ -112,8 +112,8 @@ class Configutaion {
         encrypted: Uint8Array | string,
         private_key: Uint8Array | string
     ): Uint8Array => {
-        if (typeof encrypted === 'string') encrypted = Configutaion.hex_to_buffer(encrypted);
-        if (typeof private_key === 'string') private_key = Configutaion.hex_to_buffer(private_key);
+        if (typeof encrypted === 'string') encrypted = util.convert.hex_to_buffer(encrypted);
+        if (typeof private_key === 'string') private_key = util.convert.hex_to_buffer(private_key);
 
         const ephemeral_key = encrypted.slice(0, this._elliptic_curve.elliptic_curve.public_key_length);
         const data = encrypted.slice(this._elliptic_curve.elliptic_curve.public_key_length);
@@ -134,45 +134,106 @@ class Configutaion {
 
 
     /**
-     * @name buffer_to_string
-     * @description Convert a buffer to a string
+     * @name derive_key 
+     * @description Derive a key from input data
      * 
-     * @param {Uint8Array} buffer - The buffer to convert
+     * @param {Uint8Array | string} data - The data to derive the key from
      * 
-     * @returns {string} - The string representation of the buffer
+     * @returns {Uint8Array} - The derived key in accordance with the configuration
      */
-    public static buffer_to_string = (
-        buffer: Uint8Array
-    ): string => new TextDecoder().decode(buffer);
+    public derive_key = (
+        data: Uint8Array | string
+    ): Uint8Array => {
+        // -- Convert the data to bytes
+        let bytes = typeof data === 'string' ? 
+            new TextEncoder().encode(data) : 
+            data;
+
+        // -- Check if the data is the correct lenght for the curve
+        if (bytes.length !== this._elliptic_curve.elliptic_curve.private_key_length)
+            bytes = this.from_seed(bytes);
+
+        // -- Derive the key
+        return bytes;
+    };
 
 
 
     /**
-     * @name buffer_to_string
-     * @description Convert a buffer to a hex string
-     * ascii, so that it can be printed / stored
+     * @name hash
+     * @description Hash a message with this configuration
      * 
-     * @param {Uint8Array} buffer - The buffer to convert'
+     * @param {Uint8Array | string} message - The message to hash
      * 
-     * @returns {string} - The hex string representation of the buffer
+     * @returns {Uint8Array} - The hash of the message
      */
-    public static buffer_to_hex = (
-        buffer: Uint8Array
-    ): string => Buffer.from(buffer).toString('hex');
+    public hash = (
+        message: Uint8Array | string
+    ): Uint8Array => {
+        const data = typeof message === 'string' ? 
+            new TextEncoder().encode(message) : 
+            message;
+
+        return this._elliptic_curve.hash_function.get_func()(data);
+    };
 
 
 
     /**
-     * @name hex_to_buffer
-     * @description Convert a hex string to a buffer
+     * @name from_seed
+     * @description Derive a key from a seed, regardless of the length
      * 
-     * @param {string} hex - The hex string to convert
+     * @param {Uint8Array | string} seed - The seed to derive the key from
      * 
-     * @returns {Uint8Array} - The buffer representation of the hex string
+     * @returns {Uint8Array} - The derived key in accordance with the configuration
      */
-    public static hex_to_buffer = (
-        hex: string
-    ): Uint8Array => Buffer.from(hex, 'hex');
+    public from_seed = (
+        seed: Uint8Array | string
+    ): Uint8Array => {
+        // -- Convert the seed to bytes
+        const bytes = typeof seed === 'string' ? 
+            new TextEncoder().encode(seed) : 
+            seed;
+
+        // -- Derive the key
+        const key = this._elliptic_curve.elliptic_curve.from_seed(
+            bytes, 
+            this._elliptic_curve.hash_function
+        );
+
+        if (key.length !== this._elliptic_curve.elliptic_curve.private_key_length)
+            throw new Error(`Invalid seed length: ${key.length}`);
+
+        return key;
+    };
+
+
+
+    /**
+     * @name random_hash
+     * @description Generates a random hash
+     * 
+     * @returns {Uint8Array} - The random hash in bytes
+     */
+    public random_hash = (
+    ): Uint8Array => {
+        const random_bytes = randomBytes(this._elliptic_curve.hash_function.output_lenght);
+        return this._elliptic_curve.hash(random_bytes).unit8Array();
+    }
+
+
+
+    /**
+     * @name get_public_key
+     * @description Get the public key from a private key
+     * 
+     * @param {Uint8Array} private_key - The private key to get the public key from
+     * 
+     * @returns {Uint8Array} - The public key
+     */
+    public get_public_key = (
+        private_key: Uint8Array
+    ): Uint8Array => this._elliptic_curve.elliptic_curve.get_public_key(private_key);
 
 
 

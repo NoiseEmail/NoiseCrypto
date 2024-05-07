@@ -84,7 +84,7 @@ class Configutaion {
 
 
 
-    public hash = (data: string) => this._hash_function.hash(data);
+    public hash = (data: string | Uint8Array) => this._hash_function.hash(data);
 
 	public static p521 = (): Configutaion => new Configutaion({ elliptic_curve: supported_curves.P521 });
 	public static x25519 = (): Configutaion => new Configutaion({ elliptic_curve: supported_curves.X25519 });

@@ -6,8 +6,9 @@ import { CHash } from '@noble/curves/abstract/utils';
 
 type HashFunction = {
     name: string;
+    output_lenght: number;
     get_func: () => CHash;
-    hash(data: string): {
+    hash(data: string | Uint8Array): {
         toString(encoding: 'hex'): string;
         unit8Array(): Uint8Array;
     };
@@ -18,7 +19,8 @@ type HashFunction = {
 const sha256_hash: HashFunction = {
     get_func: () => sha256,
     name: 'SHA-256',
-    hash: (data: string) => {
+    output_lenght: 256,
+    hash: (data: string | Uint8Array) => {
         const hash = sha256.create();
         hash.update(data);
         const digest = hash.digest();
@@ -39,8 +41,9 @@ const sha256_hash: HashFunction = {
 
 const sha512_hash: HashFunction = {
     name: 'SHA-512',
+    output_lenght: 512,
     get_func: () => sha512,
-    hash: (data: string) => {
+    hash: (data: string | Uint8Array) => {
         const hash = sha512.create();
         hash.update(data);
         const digest = hash.digest();
