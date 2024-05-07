@@ -21,3 +21,7 @@ export {
     Ecc,
     Ies,
 };
+
+
+const IES = new Ies();
+console.log(IES.random_number(1000n, 10000n));

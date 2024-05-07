@@ -219,7 +219,7 @@ class Configutaion {
     ): Uint8Array => {
         const random_bytes = randomBytes(this._elliptic_curve.hash_function.output_lenght);
         return this._elliptic_curve.hash(random_bytes).unit8Array();
-    }
+    };
 
 
 
@@ -234,6 +234,53 @@ class Configutaion {
     public get_public_key = (
         private_key: Uint8Array
     ): Uint8Array => this._elliptic_curve.elliptic_curve.get_public_key(private_key);
+
+
+
+    /**
+     * @name random_bytes
+     * @description Generate a random number of bytes, uses Noble's randomBytes
+     * which deferes randomnness to the OS so its safer than Math.random.
+     * 
+     * @param {number} length - The length of the random bytes
+     * 
+     * @returns {Uint8Array} - The random bytes
+     */
+    public random_bytes = (
+        length: number
+    ): Uint8Array => randomBytes(length);
+
+
+
+    /**
+     * @name random_number
+     * @description Generate a random number
+     *  
+     * @param {number | bigint} min - The minimum number to generate
+     * @param {number | bigint} max - The maximum number to generate
+     * 
+     * @returns {Uint8Array} - The random number
+     */
+    public random_number = <input_type extends number | bigint>(
+        min: input_type,
+        max: input_type
+    ): input_type => {
+        const range = BigInt(max) - BigInt(min);
+        const bits = range.toString(2).length;
+        const bytes = Math.ceil(bits / 8);
+
+        let number = BigInt(0);
+        for (let i = 0; i < bytes; i++) {
+            number <<= BigInt(8);
+            number += BigInt(this.random_bytes(1)[0]);
+        }
+
+        number %= range;
+        number += BigInt(min);
+
+        const output = (typeof min === 'bigint') ? number : Number(number);
+        return output as input_type;
+    };
 
 
 
