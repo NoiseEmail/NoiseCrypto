@@ -58,7 +58,8 @@ const derive_decryption_key = (
         shared_secret: sender_key.get_shared_secret(private_key),
         configuration
     }
-}
+};
+
 
 
 export {
