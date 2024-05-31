@@ -1,6 +1,6 @@
 {
   "name": "noise_crypto",
-  "version": "1.0.2",
+  "version": "1.1.4",
   "type": "module",
   "main": "./src/index.ts",
   "license": "MIT",
@@ -10,9 +10,13 @@
     "url": "https://os.noise.email"
   },
   "repository": {
-		"type": "git",
-		"url": "git+https://github.com/NoiseEmail/NoiseCrypto.git"
-	},
+    "type": "git",
+    "url": "git+https://github.com/NoiseEmail/NoiseCrypto.git"
+  },
+  "scripts": {
+    "bump": "npm --no-git-tag-version version patch",
+    "package": "bun run bump && npm publish"
+  },
   "dependencies": {
     "@noble/ciphers": "^0.5.2",
     "@noble/curves": "^1.4.0",
@@ -24,5 +28,7 @@
     "ts-node": "10.9.1",
     "typescript": "4.5.2"
   },
-  "scripts": {}
+  "publishConfig": {
+    "registry": "http://localhost:4873"
+  }
 }
